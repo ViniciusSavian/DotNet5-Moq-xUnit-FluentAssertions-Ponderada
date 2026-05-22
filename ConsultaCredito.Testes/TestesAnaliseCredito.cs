@@ -17,13 +17,13 @@ namespace ConsultaCredito.Testes
 
         public TestesAnaliseCredito()
         {
-            mock = new (MockBehavior.Strict);
+            mock = new Mock<IServicoConsultaCredito>(MockBehavior.Strict);
 
             mock.Setup(s => s.ConsultarPendenciasPorCPF(CPF_INVALIDO))
                 .Returns(() => null);
 
             mock.Setup(s => s.ConsultarPendenciasPorCPF(CPF_ERRO_COMUNICACAO))
-                .Throws(new ("Testando erro de comunicação"));
+                .Throws(new Exception("Testando erro de comunicaÃ§Ã£o"));
 
             mock.Setup(s => s.ConsultarPendenciasPorCPF(CPF_SEM_PENDENCIAS))
                 .Returns(() => new List<Pendencia>());
@@ -33,7 +33,7 @@ namespace ConsultaCredito.Testes
                 CPF = CPF_INADIMPLENTE,
                 NomePessoa = "Cliente Teste",
                 NomeReclamante = "Empresas ACME",
-                DescricaoPendencia = "Parcela não paga",
+                DescricaoPendencia = "Parcela nï¿½o paga",
                 VlPendencia = 900.50
             };
             List<Pendencia> pendencias = new ();
@@ -55,7 +55,7 @@ namespace ConsultaCredito.Testes
             StatusConsultaCredito status =
                 ObterStatusAnaliseCredito(CPF_INVALIDO);
             status.Should().Be(StatusConsultaCredito.ParametroEnvioInvalido,
-                "Resultado incorreto para um CPF inválido");
+                "Resultado incorreto para um CPF invï¿½lido");
         }
 
         [Fact]
@@ -64,7 +64,7 @@ namespace ConsultaCredito.Testes
             StatusConsultaCredito status =
                 ObterStatusAnaliseCredito(CPF_ERRO_COMUNICACAO);
             status.Should().Be(StatusConsultaCredito.ErroComunicacao,
-                "Resultado incorreto para um erro de comunicação");
+                "Resultado incorreto para um erro de comunicaï¿½ï¿½o");
         }
 
         [Fact]
@@ -73,7 +73,7 @@ namespace ConsultaCredito.Testes
             StatusConsultaCredito status =
                 ObterStatusAnaliseCredito(CPF_SEM_PENDENCIAS);
             status.Should().Be(StatusConsultaCredito.SemPendencias,
-                "Resultado incorreto para um CPF sem pendências");
+                "Resultado incorreto para um CPF sem pendï¿½ncias");
         }
 
         [Fact]
